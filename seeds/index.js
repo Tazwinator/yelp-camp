@@ -1,6 +1,6 @@
 const cities = require("./cities")
 const { descriptors, places } = require("./seedHelpers")
-const mongoose = require("mongoose");
+const Mongoose = require("mongoose");
 const Campground = require("../models/campground"); // not camel-cased because the only export is a class/model.
 const Review = require("../models/review");
 
@@ -11,14 +11,14 @@ if (process.env.NODE_ENV !== "production") {
 
 // Connects to the specified db on the mongoose server.
 // If the db is not found it creates one.
-const dbUrl = "mongodb+srv://tyrone:<tyronepassword>@tazwin-cluster.cdgxf.mongodb.net/yelp-camp?retryWrites=true&w=majority";
+const dbUrl = "mongodb+srv://tyrone:tyronepassword@tazwin-cluster.cdgxf.mongodb.net/yelp-camp?retryWrites=true&w=majority";
 Mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true, // These three parameters should always be used unless I found out more about them.
   useUnifiedTopology: true
 });
 
-const db = mongoose.connection;
+const db = Mongoose.connection;
 db.on("error", console.error.bind("console", "connection error:"));
 db.once("open", () => {
   console.log("Database connected");
@@ -41,7 +41,7 @@ const seedDB = async () => {
       title: `${sample(descriptors)} ${sample(places)}`,
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat dolore modi, minus reiciendis perferendis eveniet omnis vel voluptatum nesciunt? Id error doloremque quisquam adipisci maxime ea totam quis explicabo. Nostrum.",
       price,
-      author: "Irremovable campground",
+      author: "60d28acfb2cc73315c90587d",
       geometry: {
         type: "Point",
         coordinates: [
@@ -69,6 +69,6 @@ const seedDB = async () => {
 }
 
 seedDB().then( () => {
-  mongoose.connection.close()
+  Mongoose.connection.close()
   console.log("Database disconnected")
 })
