@@ -169,6 +169,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("pages/error", { err, statusCode });
 });
 
-app.listen(3000, () => { // Actually turns the server on. Makes it listen for requests on a specified port.
+const port = process.env.PORT || 3000
+app.listen(port, () => { // Actually turns the server on. Makes it listen for requests on a specified port.
   console.log("Serving on port 3000");
 });
