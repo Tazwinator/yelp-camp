@@ -1,0 +1,15 @@
+#clusterMap {
+	width: 100%;
+	height: 500px;
+}
+
+#map {
+	width: 100%;
+	height: 300px;
+}
+
+#menu {
+	background: #efefef;
+	padding: 10px;
+	text-align: center;
+}
