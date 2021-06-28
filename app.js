@@ -2,6 +2,13 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 };
 
+/* npm WARN lifecycle The node binary used for scripts is /usr/bin/node but 
+npm is using /opt/plesk/node/12/bin/node itself. 
+Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with. 
+
+^^^^^^ I BELIEVE THIS IS BECAUSE ON MY SERVER THERE ARE TWO NPMs AND TWO NODE runtimes
+*/
+
 const express = require("express"); // With require you don't need __dirname
 const app = express();
 
@@ -48,7 +55,7 @@ app.use(morgan('combined', { stream: accessLogStream }))
 const Mongoose = require("mongoose");
 // Connects to the specified db on the mongo server via mongoose.
 // If the db is not found it creates one.
-const dbUrl = "mongodb://localhost:27017/yelp-camp"
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp"
 Mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true, // These parameters should always be used unless I found out more about them.
@@ -89,9 +96,11 @@ app.use(express.static(path.join(__dirname, "public")))
 
 // --------- Session --------------------------- //
 
+const secret = process.env.SECRET || "thishouldbeabettersecret!";
+
 const store = new MongoDBStore ({
   mongoUrl: dbUrl,
-  secret: "thishouldbeabettersecret!",
+  secret: secret,
   touchAfter: 24 * 60 * 60 // In seconds, delay between session saves to the db when nothing has been updated
 });
 
@@ -102,7 +111,7 @@ store.on("error", function (e) {
 const sessionConfig = { // Sets up the sessionId cookie
   store,
   name: "SID",
-  secret: "thisshouldbeabettersecret", // this and SHA256 encrypt the cookie
+  secret: secret, // this and SHA256 encrypt the cookie
   resave: false,
   saveUninitialized: false,
   cookie: { // cookie attributes
@@ -171,5 +180,5 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000
 app.listen(port, () => { // Actually turns the server on. Makes it listen for requests on a specified port.
-  console.log("Serving on port 3000");
+  console.log(`Serving on port ${port}`);
 });
