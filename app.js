@@ -171,10 +171,11 @@ app.all("*", (req, res, next) => { // .all is for all HTTP methods (so nto just 
   next(new ExpressError("Webpage not found", 404));
 });
 
+// For unhandled errors
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = "Something went wrong!";
-  if (err.message === "Something went wrong!") console.log(err.stack);
+  if (err.message === "Something went wrong!") console.log(err);
   res.status(statusCode).render("pages/error", { err, statusCode });
 });
 
