@@ -6,7 +6,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "test",
-    "start": "node app.js"
+    "start": "node app.js",
+    "seedDb": "node seeds/index.js"
   },
   "repository": {
     "type": "git",
