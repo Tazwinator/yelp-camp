@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== "production") {
 
 // Connects to the specified db on the mongoose server.
 // If the db is not found it creates one.
-const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp"
+const dbUrl = "mongodb+srv://tyrone:<tyronepassword>@tazwin-cluster.cdgxf.mongodb.net/yelp-camp?retryWrites=true&w=majority";
 Mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true, // These three parameters should always be used unless I found out more about them.
@@ -32,7 +32,7 @@ const seedDB = async () => {
   await Campground.deleteMany({});
   await Review.deleteMany({});
 
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 10; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 20) + 10;
 
@@ -41,7 +41,7 @@ const seedDB = async () => {
       title: `${sample(descriptors)} ${sample(places)}`,
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat dolore modi, minus reiciendis perferendis eveniet omnis vel voluptatum nesciunt? Id error doloremque quisquam adipisci maxime ea totam quis explicabo. Nostrum.",
       price,
-      author: "60d28acfb2cc73315c90587d",
+      author: "Irremovable campground",
       geometry: {
         type: "Point",
         coordinates: [
