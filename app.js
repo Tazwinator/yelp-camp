@@ -150,8 +150,6 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   const ip = req.socket.remoteAddress;
-  res.locals.ip = ip
-  console.log(ip);
   next();
 });
 
