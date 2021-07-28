@@ -149,7 +149,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  console.log(req.ip);
+  res.locals.ip = req.ip;
   next();
 });
 
