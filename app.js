@@ -149,7 +149,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  res.locals.ip = req.ip;
+  res.locals.ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   next();
 });
 
